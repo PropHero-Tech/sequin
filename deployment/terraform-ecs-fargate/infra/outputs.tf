@@ -27,12 +27,12 @@ output "target_group_arn" {
 
 output "private_subnet_primary_id" {
   description = "ID of the primary private subnet for ECS services"
-  value       = aws_subnet.sequin-private-primary.id
+  value       = data.aws_subnet.sequin-private-primary.id
 }
 
 output "private_subnet_secondary_id" {
   description = "ID of the secondary private subnet for ECS services"
-  value       = aws_subnet.sequin-private-secondary.id
+  value       = data.aws_subnet.sequin-private-secondary.id
 }
 
 output "ecs_security_group_id" {

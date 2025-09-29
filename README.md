@@ -18,6 +18,15 @@
 
 # Sequin
 
+> **⚠️ SECURITY NOTICE - PropHero Fork**
+>
+> This is a PropHero fork of the open source Sequin repository for self-hosting purposes.
+> **This repository is PUBLIC** - exercise extreme caution when committing changes:
+> - Never commit secrets, API keys, or sensitive configuration
+> - Review all commits for proprietary information before pushing
+> - Use environment variables and external secret management
+> - Consider all code and comments as publicly visible
+
 Sequin is the [fastest](#performance) change data capture (CDC) platform for Postgres. Sequin makes it easy to stream Postgres to streaming platforms, queues, search indexes, and more (e.g. Kafka, GCP Pub/Sub, another Postgres, etc.). You can backfill existing rows and stream new changes in real-time.
 
 Sequin is a standalone Docker container that you can deploy next to your Postgres database. Alternatively, you can use [our hosted offering](https://console.sequinstream.com) or we'll [manage Sequin](https://sequinstream.com/docs/sequin-managed/overview) for you in your cloud.

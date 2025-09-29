@@ -256,7 +256,7 @@ resource "aws_ecs_task_definition" "sequin-main" {
         logDriver = "awslogs"
         options = {
           "awslogs-group"         = "/ecs/sequin"
-          "awslogs-region"        = "us-east-1"
+          "awslogs-region"        = var.aws_region
           "awslogs-stream-prefix" = "ecs"
         }
       }

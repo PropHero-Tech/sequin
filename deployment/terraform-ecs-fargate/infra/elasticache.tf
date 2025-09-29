@@ -1,6 +1,6 @@
 resource "aws_elasticache_cluster" "sequin-main" {
   auto_minor_version_upgrade = "true"
-  availability_zone          = aws_subnet.sequin-private-primary.availability_zone
+  availability_zone          = data.aws_subnet.sequin-private-primary.availability_zone
   az_mode                    = "single-az"
   cluster_id                 = "sequin-main"
   engine                     = "redis"
@@ -21,5 +21,5 @@ resource "aws_elasticache_cluster" "sequin-main" {
 resource "aws_elasticache_subnet_group" "sequin-subnet" {
   description = "Managed by Terraform"
   name        = "sequin-subnet"
-  subnet_ids  = [aws_subnet.sequin-private-primary.id, aws_subnet.sequin-private-secondary.id]
+  subnet_ids  = [data.aws_subnet.sequin-private-primary.id, data.aws_subnet.sequin-private-secondary.id]
 }
