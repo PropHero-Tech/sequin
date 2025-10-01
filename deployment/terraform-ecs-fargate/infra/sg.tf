@@ -1,14 +1,13 @@
 resource "aws_security_group" "sequin-ecs-sg" {
   description = "ECS Allowed Ports"
-  vpc_id      = aws_vpc.sequin-main.id
+  vpc_id      = data.aws_vpc.sequin-main.id
 
   egress {
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    from_port        = "0"
-    protocol         = "-1"
-    self             = "false"
-    to_port          = "0"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = "0"
+    protocol    = "-1"
+    self        = "false"
+    to_port     = "0"
   }
 
   # ingress {
@@ -35,13 +34,36 @@ resource "aws_security_group" "sequin-ecs-sg" {
   #   to_port     = "8125"
   # }
 
+  # ingress {
+  #   description = "Datadog OTEL UDP"
+  #   from_port   = "4317"
+  #   protocol    = "udp"
+  #   self        = "true"
+  #   to_port     = "4317"
+  # }
+
+  # ingress {
+  #   description = "Datadog profiling"
+  #   from_port   = "4319"
+  #   protocol    = "tcp"
+  #   self        = "true"
+  #   to_port     = "4319"
+  # }
+
+  # ingress {
+  #   description = "Datadog APM"
+  #   from_port   = "8126"
+  #   protocol    = "tcp"
+  #   self        = "true"
+  #   to_port     = "8126"
+  # }
 
   ingress {
     description     = "Allow inbound traffic from ALB"
     from_port       = 7376
-    to_port         = 7376
     protocol        = "tcp"
     security_groups = [aws_security_group.sequin-alb-sg.id]
+    to_port         = 7376
   }
 
   name = "sequin-ecs-sg"
@@ -50,41 +72,38 @@ resource "aws_security_group" "sequin-ecs-sg" {
 resource "aws_security_group" "sequin-alb-sg" {
   name        = "sequin-alb-sg"
   description = "Security group for Sequin ALB"
-  vpc_id      = aws_vpc.sequin-main.id
+  vpc_id      = data.aws_vpc.sequin-main.id
 
   ingress {
-    from_port        = 80
-    to_port          = 80
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   ingress {
-    from_port        = 443
-    to_port          = 443
-    protocol         = "tcp"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
+
   tags = {
     Name = "sequin-alb-sg"
   }
 }
 
-
 resource "aws_security_group" "sequin-rds-sg" {
   name        = "sequin-rds-sg"
   description = "Security group for Sequin RDS"
-  vpc_id      = aws_vpc.sequin-main.id
+  vpc_id      = data.aws_vpc.sequin-main.id
 
   ingress {
     from_port       = 0
@@ -94,11 +113,10 @@ resource "aws_security_group" "sequin-rds-sg" {
   }
 
   egress {
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   tags = {
@@ -111,12 +129,11 @@ resource "aws_security_group" "sequin-redis-sg" {
   name        = "sequin-redis-sg"
 
   egress {
-    cidr_blocks      = ["0.0.0.0/0"]
-    ipv6_cidr_blocks = ["::/0"]
-    from_port        = "0"
-    protocol         = "-1"
-    self             = "false"
-    to_port          = "0"
+    cidr_blocks = ["0.0.0.0/0"]
+    from_port   = "0"
+    protocol    = "-1"
+    self        = "false"
+    to_port     = "0"
   }
 
   ingress {
@@ -127,5 +144,5 @@ resource "aws_security_group" "sequin-redis-sg" {
     to_port         = "0"
   }
 
-  vpc_id = aws_vpc.sequin-main.id
+  vpc_id = data.aws_vpc.sequin-main.id
 }

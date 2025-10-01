@@ -3,7 +3,7 @@ resource "random_password" "db_password" {
   length  = 16
   special = true
   # Exclude characters that break PostgreSQL connection URLs
-  override_special = "!#$%&*()-_=+[]{}<>?."
+  override_special = "!#$%&*()-_=+[]?."
 }
 
 resource "aws_db_parameter_group" "sequin-prod-pg-17" {
@@ -31,7 +31,7 @@ resource "aws_db_parameter_group" "sequin-prod-pg-17" {
 
 resource "aws_db_subnet_group" "sequin-default-group" {
   name       = "sequin-default-rds-subnet-group"
-  subnet_ids = [aws_subnet.sequin-private-primary.id, aws_subnet.sequin-private-secondary.id]
+  subnet_ids = [data.aws_subnet.sequin-private-primary.id, data.aws_subnet.sequin-private-secondary.id]
 
   tags = {
     Name = "Sequin single AZ RDS subnet group"
@@ -43,15 +43,12 @@ resource "aws_kms_key" "sequin-rds-encryption-key" {
   deletion_window_in_days = 30
   enable_key_rotation     = true
 
-  lifecycle {
-    prevent_destroy = true
-  }
 }
 
 resource "aws_db_instance" "sequin-prod" {
   allocated_storage                     = var.rds_allocated_storage
   auto_minor_version_upgrade            = "true"
-  availability_zone                     = aws_subnet.sequin-private-primary.availability_zone
+  availability_zone                     = data.aws_subnet.sequin-private-primary.availability_zone
   backup_retention_period               = "7"
   backup_window                         = "11:43-12:13"
   db_name                               = var.db_name
@@ -82,11 +79,12 @@ resource "aws_db_instance" "sequin-prod" {
   storage_type                          = "gp3"
   username                              = "postgres"
   vpc_security_group_ids                = [aws_security_group.sequin-rds-sg.id]
+  skip_final_snapshot                   = true
+  delete_automated_backups              = true
 
   password = random_password.db_password.result
 
   lifecycle {
-    prevent_destroy = true
     ignore_changes  = [password]
   }
 }

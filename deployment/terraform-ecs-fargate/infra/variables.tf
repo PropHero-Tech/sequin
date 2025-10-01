@@ -1,19 +1,19 @@
 variable "aws_region" {
   description = "AWS region for deployment"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-southeast-2"
 }
 
 variable "primary_availability_zone" {
   description = "Primary availability zone for single-AZ resources (RDS, Redis)"
   type        = string
-  default     = "us-east-1a"
+  default     = "ap-southeast-2a"
 }
 
 variable "secondary_availability_zone" {
   description = "Secondary availability zone for multi-AZ resources (ALB, subnets)"
   type        = string
-  default     = "us-east-1b"
+  default     = "ap-southeast-2b"
 }
 
 
