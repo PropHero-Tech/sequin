@@ -59,6 +59,7 @@ bucket = "$bucket"
 key    = "infra/terraform.tfstate"
 region = "$region"
 encrypt = true
+use_lockfile = true
 
 EOF
 

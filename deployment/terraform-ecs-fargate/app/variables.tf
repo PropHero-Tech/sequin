@@ -1,7 +1,7 @@
 variable "aws_region" {
   description = "AWS region for deployment"
   type        = string
-  default     = "us-east-1"
+  default     = "ap-southeast-2"
 }
 
 variable "image_tag" {
@@ -11,6 +11,7 @@ variable "image_tag" {
     condition     = can(regex("^[a-f0-9]{40}$|^v[0-9]+\\.[0-9]+\\.[0-9]+.*|^latest$", var.image_tag))
     error_message = "Must be a 40-character git commit SHA, version starting with 'v' (e.g. v0.9.0), or 'latest'."
   }
+  default = "v0.13.16"
 }
 
 variable "image_repository" {
