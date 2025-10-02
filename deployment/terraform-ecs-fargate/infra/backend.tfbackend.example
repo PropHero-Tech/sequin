@@ -9,5 +9,5 @@ region = "us-east-1"
 # Optional: Enable encryption
 encrypt = true
 
-# Optional: DynamoDB table for state locking
-dynamodb_table = "terraform-state-lock"
+# Optional: Use "use_locakfile" for state locking in S3
+use_lockfile = true

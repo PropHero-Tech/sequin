@@ -16,8 +16,6 @@ variable "secondary_availability_zone" {
   default     = "ap-southeast-2b"
 }
 
-
-
 # ==============================================================================
 # NETWORKING CONFIGURATION
 # ==============================================================================
@@ -32,7 +30,6 @@ variable "vpc_cidr_block" {
     error_message = "VPC CIDR block must be a valid IPv4 CIDR."
   }
 }
-
 
 # ==============================================================================
 # COMPUTE RESOURCES

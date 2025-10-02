@@ -5,5 +5,4 @@ bucket = "terraform-state-577064425254"
 key    = "PropHero-Tech/sequin/infra/terraform.tfstate"
 region = "ap-southeast-2"
 encrypt = true
-
-dynamodb_table = "terraform-lock-577064425254"
+use_lockfile = true

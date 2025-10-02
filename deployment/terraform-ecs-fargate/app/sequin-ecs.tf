@@ -50,9 +50,7 @@ resource "aws_secretsmanager_secret_version" "sequin-config" {
     GITHUB_CLIENT_SECRET = ""
     SENDGRID_API_KEY     = ""
     RETOOL_WORKFLOW_KEY  = ""
-    LOOPS_API_KEY        = ""
-    DATADOG_API_KEY      = ""
-    DATADOG_APP_KEY      = ""
+    LOOPS_API_KEY        = ""    
     # Not a valid DSN, but required to boot
     SENTRY_DSN                = "https://f8f11937067b2ef151cda3abe652667b@o398678.ingest.us.sentry.io/4508033603469312"
     PAGERDUTY_INTEGRATION_KEY = ""
@@ -78,7 +76,6 @@ resource "aws_ecs_service" "sequin-main" {
     enable   = true
     rollback = true
   }
-
 
   network_configuration {
     subnets = [
@@ -193,14 +190,6 @@ resource "aws_ecs_task_definition" "sequin-main" {
         {
           name      = "LOOPS_API_KEY"
           valueFrom = "${aws_secretsmanager_secret.sequin-config.arn}:LOOPS_API_KEY::"
-        },
-        {
-          name      = "DATADOG_API_KEY"
-          valueFrom = "${aws_secretsmanager_secret.sequin-config.arn}:DATADOG_API_KEY::"
-        },
-        {
-          name      = "DATADOG_APP_KEY"
-          valueFrom = "${aws_secretsmanager_secret.sequin-config.arn}:DATADOG_APP_KEY::"
         },
         {
           name      = "SENTRY_DSN"
