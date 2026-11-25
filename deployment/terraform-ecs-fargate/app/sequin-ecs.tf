@@ -50,9 +50,12 @@ resource "aws_secretsmanager_secret_version" "sequin-config" {
     GITHUB_CLIENT_SECRET = ""
     SENDGRID_API_KEY     = ""
     RETOOL_WORKFLOW_KEY  = ""
-    LOOPS_API_KEY        = ""    
-    # Not a valid DSN, but required to boot
-    SENTRY_DSN                = "https://f8f11937067b2ef151cda3abe652667b@o398678.ingest.us.sentry.io/4508033603469312"
+    LOOPS_API_KEY        = ""
+    # Crash reporting is disabled with CRASH_REPORTING_DISABLED in the task
+    # definition. The official image ships with Sequin's own DSN compiled in,
+    # which takes precedence over this value, so it must stay empty: we do not
+    # want our errors sent to Sequin's Sentry.
+    SENTRY_DSN                = ""
     PAGERDUTY_INTEGRATION_KEY = ""
   })
 
@@ -147,6 +150,12 @@ resource "aws_ecs_task_definition" "sequin-main" {
         {
           name  = "SERVER_PORT"
           value = "7376"
+        },
+        {
+          # Stop sending crash reports to Sequin's Sentry (the DSN compiled
+          # into the official image). Must be "true" or "1".
+          name  = "CRASH_REPORTING_DISABLED"
+          value = "true"
         }
       ]
 
